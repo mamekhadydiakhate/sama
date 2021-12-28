@@ -1,0 +1,17 @@
+ {% extends 'OroUIBundle:actions:index.html.twig' %}
+
+ {% set gridName = 'app-tasks-grid' %}
+ {% set pageTitle = 'Task' %}
+
+ {% block navButtons %}
+     {% include 'OroImportExportBundle:ImportExport:buttons.html.twig' with {
+         entity_class: 'AppBundle\\Entity\\Task',
+         exportProcessor: 'app_task',
+         exportTitle: 'Export',
+         importProcessor: 'app_task',
+         importTitle: 'Import',
+         datagridName: gridName
+     } %}
+
+     {# ... #}
+ {% endblock %}

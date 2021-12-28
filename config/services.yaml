@@ -1,0 +1,84 @@
+# This file is the entry point to configure your own services.
+# Files in the packages/ subdirectory configure your dependencies.
+
+# Put parameters here that don't need to change on each machine where the app is deployed
+# https://symfony.com/doc/current/best_practices/configuration.html#application-related-configuration
+parameters:
+    images_directory: '%kernel.project_dir%/public/uploads/images'
+    document_directory: '%kernel.project_dir%/public/uploads/documents'
+
+services:
+
+
+    # default configuration for services in *this* file
+    _defaults:
+        autowire: true      # Automatically injects dependencies in your services.
+        autoconfigure: true # Automatically registers your services as commands, event subscribers, etc.
+
+    # makes classes in src/ available to be used as services
+    # this creates a service per class whose id is the fully-qualified class name
+    App\:
+        resource: '../src/'
+        exclude:
+            - '../src/DependencyInjection/'
+            - '../src/Entity/'
+            - '../src/Kernel.php'
+            - '../src/Tests/'
+
+    # controllers are imported separately to make sure services can be injected
+    # as action arguments even if you don't extend any base controller class
+    App\Controller\:
+        resource: '../src/Controller/'
+        tags: ['controller.service_arguments']
+    #monolog config
+    app.formatter:
+        class: App\Service\Formatter
+        public: true
+        arguments: ['@logger']
+        #arguments: [~, ~, true]
+        tags:
+            - { name: monolog.logger, channel: trace }
+
+    gdi_annotation_listener:
+        class: App\Listener\AnnotationListener
+        public: true
+        tags:
+            - { name: kernel.event_listener, event: kernel.controller, method: onKernelController }
+            - { name: kernel.event_listener, event: kernel.response, method: onKernelResponse }
+        arguments: ['@service_container']
+            #- { type: service, id: service_container }
+    
+            
+    App\Listener\ExceptionListener:
+        arguments: ['%kernel.environment%', '%kernel.debug%', '@monolog.logger.trace']
+        tags:
+            - { name: kernel.event_listener, event: kernel.exception }
+    guedia_main.event.authentication_success_listener:
+        class: App\Listener\AuthenticationSuccessListener
+        arguments: ['@doctrine.orm.entity_manager']
+        tags:
+            - { name: kernel.event_listener, event: lexik_jwt_authentication.on_authentication_success, method: onAuthenticationSuccessResponse }
+    
+    guedia_main.event.authentication_failure_listener:
+        class: App\Listener\AuthenticationFailureListener
+        arguments: ['@doctrine.orm.entity_manager']
+        tags:
+            - { name: kernel.event_listener, event: lexik_jwt_authentication.on_authentication_failure, method: onAuthenticationFailureResponse }
+    
+    App\Controller\ExceptionController:
+        public: true
+        arguments: [ '@kernel','@twig','%kernel.debug%' ]
+        tags: [ 'controller.service_arguments' ]
+
+    Symfony\Component\Ldap\Ldap:
+        arguments: ['@Symfony\Component\Ldap\Adapter\ExtLdap\Adapter']
+    Symfony\Component\Ldap\Adapter\ExtLdap\Adapter:
+        arguments:
+            -   host: 10.100.55.80
+                port: 389
+                encryption: tls
+                options:
+                    protocol_version: 3
+                    referrals: false
+    # add more service definitions when explicit configuration is needed
+    # please note that last definitions always *replace* previous ones

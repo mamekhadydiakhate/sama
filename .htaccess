@@ -1,0 +1,14 @@
+<IfModule mod_rewrite.c>
+    Header Set Access-Control-Allow-Origin "*"
+    Header Set Access-Control-Allow-Headers "*"
+    Header Set Access-Control-Allow-Methods "*"
+    Header set Access-Control-Allow-Credentials true
+    RewriteEngine On
+    SetEnvIf Authorization "(.*)" HTTP_AUTHORIZATION=$1
+    RewriteCond %{HTTP:Authorization} ^(.*)
+    RewriteRule .* - [e=HTTP_AUTHORIZATION:%1]
+    RewriteBase /
+    RewriteRule !\.(js|gif|jpg|png|css|txt)$ public/index.php [L]
+    RewriteCond %{REQUEST_URI} !^/public/
+    RewriteRule ^(.*)$ public/$1 [L]
+</IfModule>

@@ -1,0 +1,21 @@
+monolog:
+    channels: ["trace"]
+    handlers:
+        main:
+            type: rotating_file
+            path: "%kernel.logs_dir%/%kernel.environment%.log"
+            level: debug
+            max_files: 100
+            channels: ["!trace"]
+            action_level: error
+            handler: nested
+        trace:
+            type: rotating_file
+            path: "%kernel.logs_dir%/%kernel.environment%trace.log"
+            level: debug
+            max_files: 100
+            action_level: error
+            handler: nested
+            channels: ["trace"]
+            process_psr_3_messages: false
+            formatter: 'app.formatter'

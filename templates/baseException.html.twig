@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <!-- Tell the browser to be responsive to screen width -->
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    {# <link rel="icon" type="image/x-icon" href="/favicon.ico" /> #}
+    <title>{% block title %}TORCH{% endblock %}</title>
+</head>
+<body class="hold-transition sidebar-mini sidebar-collapse layout-fixed">
+
+    <div class="aside position-fixed">
+
+    <!-- Site content -->
+    <div class="container-fluid content">
+        <div class="row">
+            <!--  COL SECTION -->
+            <div class="col-md-8 col-lg-9 section">
+                <div class="row">
+                    <!-- ROW SEARCH AND DATE -->
+                    <div class="col-sm-12 col-lg-7">
+                        <!-- ROW SEARCH + small_notif -->
+                        <div class="row m-0 mb-3 p-0">
+                            <div class="search-accueil">
+                                <div class="row">
+                                    <div class="col-11 pl-">
+                                        <form class="search-form">
+                                            <input disabled class="form-control form-control-sm search-input" type="search" placeholder="Exeption controller" style="background-color:transparent">
+                                        </form>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+
+                    {% block content %}  
+                    {% endblock %}
+                </div>
+            </div>
+</body>
+</html>

@@ -1,0 +1,52 @@
+{% extends 'baseException.html.twig' %}
+
+{% block title_page %}Erreur{% endblock %}
+
+{% block content %}
+    <!-- ROW MENU  -->
+    <div class="col-sm-12">
+        <div class="row">
+            <!-- row 1 -->
+            <div class="col-12 ">
+                <div class="page-reunion-item">
+                    <div class="page-reunion-item-title text-center">
+                        Une erreur est survenue !
+                    </div>
+                </div>
+            </div>
+
+            <!-- row 2 -->
+        </div>
+    </div>
+
+    <div class="col-12 p-0 mb-4">
+        <div class="container-fluid">
+            <div class="form_wizard" id="form_wizard">
+                <div class="new-card">
+                    <div class="card-header my-bottom-border">
+                        <!-- progressbar -->
+                        <strong style="color: #009393">
+                            Message
+                        </strong>
+                    </div>
+                    <!-- /.card-header -->
+
+                    <!-- fieldset informations générales -->
+                    <fieldset id="f1">
+                        <div class="card-body reunion-bloc-height">
+                            <div>
+                                <div class="col-11 col-lg-12 reunion-table">
+                                    <br>
+                                    <h4>
+                                        Un mail de signalisation a été envoyé à l'administrateur du site.
+                                    </h4>
+                                </div>
+                            </div>
+                        </div>
+                    </fieldset>
+
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}

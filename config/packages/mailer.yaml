@@ -1,0 +1,4 @@
+#framework:
+ #   mailer:
+ #       dsn: 'smtp://%env(MAILER_USER)%:%env(resolve:MAILER_PASS)%@%env(MAILER_HOST)%?encryption=tls&auth_mode=plain'
+
