@@ -28,7 +28,6 @@ class Activite
      * @ORM\Id
      * @ORM\GeneratedValue
      * @ORM\Column(type="integer")
-     * @Groups({"activite:read", "activite:show" ,"structure:read"  ,"difficulte:read"})
      */
     protected $id;
 

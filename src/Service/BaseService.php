@@ -38,6 +38,30 @@ class BaseService
          }
            
     }
+    function dateRecupere($date ,$format="d-m-Y") {
+
+        $year= date("Y");
+        $week= strftime("%W");
+        $firstDayInYear=date("N",mktime(0,0,0,1,1,$year));
+        if ($firstDayInYear<5)
+        $shift=-($firstDayInYear-1)*86400;
+        else
+        $shift=(8-$firstDayInYear)*86400;
+        if ($week>1) $weekInSeconds=($week-1)*604800; else $weekInSeconds=0;
+        $timestamp=mktime(0,0,0,1,1,$year)+$weekInSeconds+$shift;
+        $timestamp_dimanche=mktime(0,0,0,1,7,$year)+$weekInSeconds+$shift;
+        
+        return array("Lundi " . date($format,$timestamp),"Dimanche " . date($format,$timestamp_dimanche));
+        
+        }
+        
+        
+
+    public function Date2Semaine($date)
+    {
+        $am = explode('-', $date);
+        return date("W", mktime(0,0,0,$am[1],$am[0],$am[2]));
+    }
 
     public function uploadFile($file,$directory){
         $allowed  = ['jpg', 'jpeg', 'png', 'gif','pdf','PDF','JPG','JPEG','PNG'];

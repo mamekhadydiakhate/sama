@@ -61,6 +61,7 @@ class EvenementController extends BaseController
         
 
     }
+
     
     /**
      * @Post("/api/evenement", name="evenements")
@@ -80,7 +81,10 @@ class EvenementController extends BaseController
 
     $user = $this->getUser();
     $structure = $user->getStructure();
-    $evenement->setThematique($request->request->get('thematique'));
+    $dateDebut = ($request->request->get('dateDebut'));
+    $evenement->setThematique($request->request->get('thematique'));  
+    $semaine= $this->baseService->Date2Semaine($dateDebut);
+    $evenement->setSemaine($semaine);
         $evenement->setUser($user);
         $evenement->setStructure($structure);
 
@@ -132,6 +136,18 @@ class EvenementController extends BaseController
         $search=$request->query->get('profil');
         return new JsonResponse($this->evenementManager->searchEvenement($search));
     }
+     
+     /**
+     * @Get("/api/agenda/evenement", name="agenda-evenement")
+     */
+    public function listeAgendavenement(): Response
+    {
+        #$evenementJson=file_get_contents("https://server/reportserver/ReportService2010.asmx?wsdl");
+        $semaine= strftime("%W");
+        $year = date("Y");
+        $evenements = $this->evenementRepo->precede($semaine, $year);
+        return $this->json($evenements, 200, [], ['groups' => 'evenement:read']);
+    }
 
     /**
     * @Delete("/api/evenement/{id}", name="delete_evenement")
@@ -156,6 +172,7 @@ class EvenementController extends BaseController
         $structure = $user->getStructure();
         $dateDebut = ($request->request->get('dateDebut'));
         $dateFin= ($request->request->get('dateFin'));
+        $evenement->setSemaine((int) Date2Semaine($dateDebut));
         $evenement->setDateDebut(new \DateTime($dateDebut)); 
         $evenement->setDateFin(new \DateTime($dateFin));    
         $evenement->setThematique($request->request->get('thematique'));

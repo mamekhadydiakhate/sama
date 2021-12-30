@@ -114,6 +114,12 @@ class Evenement
      */
     private $confirmation;
 
+    /**
+     * @ORM\Column(type="integer", nullable=true)    
+     * @Groups({"evenement:read" ,"evenement:detail" ,"structure:read"  ,"autorite:read"})
+     */
+    private $semaine;
+
     public function __construct()
     {
         $this->commentaire = new ArrayCollection();
@@ -340,6 +346,18 @@ class Evenement
     public function setConfirmation(bool $confirmation): self
     {
         $this->confirmation = $confirmation;
+
+        return $this;
+    }
+
+    public function getSemaine(): ?int
+    {
+        return $this->semaine;
+    }
+
+    public function setSemaine(?int $semaine): self
+    {
+        $this->semaine = $semaine;
 
         return $this;
     }

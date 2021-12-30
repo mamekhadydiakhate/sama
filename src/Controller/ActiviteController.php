@@ -127,14 +127,8 @@ class ActiviteController extends BaseController
         // recupere l'utilisateur via le token,
         $user = $this->getUser()->getId();
         //recuper les activité ayant comme semaine  $semaine_passer, et comme utilisateur l'utilisateur connecter
-        $data=[];
-        foreach($activites as $activite){
-            if($activite->getUser() !== null){
-
-                $data[]=$activite;
-            }
-            
-        }
+        
+        
         
         return $this->json($activites, 200, [], ['groups' => 'activite:show']);
     }
@@ -183,12 +177,34 @@ class ActiviteController extends BaseController
     {
         
         $activite = $this->activiteRepo->find($id);
-        
+        $baseService= $this->baseService;
         //$user= $this->userRepo->find($request->get('user'));
         $user = $this->getUser();
         $structure = $user->getStructure();
         #$structure= $this->structureRepo->find($request->get('structure'));
-      
+       /* $date = ($request->request->get('date'));
+        $format="d-m-Y";
+        $year= date("Y");
+        $week= strftime("%W");
+        $firstDayInYear=date("N",mktime(0,0,0,1,1,$year));
+        if ($firstDayInYear<5)
+        $shift=-($firstDayInYear-1)*86400;
+        else
+        $shift=(8-$firstDayInYear)*86400;
+        if ($week>1) $weekInSeconds=($week-1)*604800; else $weekInSeconds=0;
+        $datedeb=mktime(0,0,0,1,1,$year)+$weekInSeconds+$shift;
+        $datedebut= date($format,$datedeb);
+        $datefi=mktime(0,0,0,1,7,$year)+$weekInSeconds+$shift;
+        $datefin= date($format,$datefi);
+        dd($datedebut ,$datefin);*/
+       
+        $date = ($request->request->get('date')); 
+        $activite->setDate(new \DateTime($date));
+
+        
+        
+        $activite->setDate(new \DateTime($date)); 
+        $activite->setLibelle($request->request->get('libelle'));
         $activite->setUser($user);
         $activite->setStructure($structure);
         $activite->setSemaine((int) strftime("%W"));

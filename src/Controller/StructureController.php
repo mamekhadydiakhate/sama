@@ -62,7 +62,7 @@ class StructureController extends BaseController
        
          $structures = $this->structureRepo->findAll();
          
-         return  $this->json($structures, 200, [], ['groups' => 'structure:read']);
+         return  $this->json($structures, 200, [], ['groups' => 'structure:show']);
     }
       /**
      * @Get("/api/structure/{id}")

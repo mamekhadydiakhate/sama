@@ -28,7 +28,7 @@ class Structure
 
     /**
      * @ORM\Column(type="string", length=255)
-     * @Groups({"activite:read", "user:show" ,"difficulte:read" ,"structure:read" ,"activite:show","typeService:read", "evenement:read" ,"evenement:detail"})
+     * @Groups({"activite:read","structure:show", "user:show" ,"difficulte:read" ,"structure:read" ,"activite:show","typeService:read", "evenement:read" ,"evenement:detail"})
      */
     private $libelle;
 
