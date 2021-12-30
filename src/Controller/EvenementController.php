@@ -137,16 +137,16 @@ class EvenementController extends BaseController
         return new JsonResponse($this->evenementManager->searchEvenement($search));
     }
      
-     /**
+    /**
      * @Get("/api/agenda/evenement", name="agenda-evenement")
      */
-    public function listeAgendavenement(): Response
+    public function AgendaEvenement(): Response
     {
         #$evenementJson=file_get_contents("https://server/reportserver/ReportService2010.asmx?wsdl");
         $semaine= strftime("%W");
         $year = date("Y");
-        $evenements = $this->evenementRepo->precede($semaine, $year);
-        return $this->json($evenements, 200, [], ['groups' => 'evenement:read']);
+        $evenements = $this->evenementRepo->agenda($semaine, $year);
+        return $this->json($evenements, 200, [], ['groups' => 'evenement:detail']);
     }
 
     /**

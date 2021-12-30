@@ -2,9 +2,10 @@
 
 namespace App\Repository;
 
+use DateTime;
 use App\Entity\Evenement;
-use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
+use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 
 /**
  * @method Evenement|null find($id, $lockMode = null, $lockVersion = null)
@@ -47,4 +48,18 @@ class EvenementRepository extends ServiceEntityRepository
         ;
     }
     */
+     
+    public function agenda($semaine ,$year)
+    {
+        return $this->createQueryBuilder('a')
+            ->andWhere('a.semaine = :semaine')
+            ->setParameter('semaine', $semaine)
+            ->andWhere('a.dateDebut BETWEEN :datestart AND :dateEnd')
+            ->setParameter('datestart',new DateTime("$year-01-01"))
+            ->setParameter('dateEnd',new DateTime("$year-12-31"))
+            ->getQuery()
+            ->getResult()
+            
+        ;
+    }
 }
